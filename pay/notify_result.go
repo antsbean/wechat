@@ -2,8 +2,8 @@ package pay
 
 import (
 	"fmt"
+	"github.com/antsbean/wechat/util"
 	"github.com/fatih/structs"
-	"github.com/silenceper/wechat/util"
 	"github.com/spf13/cast"
 	"reflect"
 	"sort"
@@ -19,6 +19,8 @@ type NotifyResult struct {
 
 	AppID              *string `xml:"appid" json:"appid"`
 	MchID              *string `xml:"mch_id"`
+	SubAppID           *string `xml:"appid" json:"sub_appid"`
+	SubMchID           *string `xml:"sub_mch_id"`
 	DeviceInfo         *string `xml:"device_info"`
 	NonceStr           *string `xml:"nonce_str"`
 	Sign               *string `xml:"sign"`
@@ -26,7 +28,9 @@ type NotifyResult struct {
 	ResultCode         *string `xml:"result_code"`
 	ErrCode            *string `xml:"err_code"`
 	ErrCodeDes         *string `xml:"err_code_des"`
+
 	OpenID             *string `xml:"openid"`
+	SubOpenID          *string `xml:"sub_openid"`
 	IsSubscribe        *string `xml:"is_subscribe"`
 	TradeType          *string `xml:"trade_type"`
 	BankType           *string `xml:"bank_type"`

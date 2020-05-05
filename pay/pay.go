@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/silenceper/wechat/context"
-	"github.com/silenceper/wechat/util"
+	"github.com/antsbean/wechat/context"
+	"github.com/antsbean/wechat/util"
 )
 
 var payGateway = "https://api.mch.weixin.qq.com/pay/unifiedorder"
@@ -56,18 +56,10 @@ type Config struct {
 
 // PreOrder 是 unifie order 接口的返回
 type PreOrder struct {
-	ReturnCode string `xml:"return_code"`
-	ReturnMsg  string `xml:"return_msg"`
-	AppID      string `xml:"appid,omitempty"`
-	MchID      string `xml:"mch_id,omitempty"`
-	NonceStr   string `xml:"nonce_str,omitempty"`
-	Sign       string `xml:"sign,omitempty"`
-	ResultCode string `xml:"result_code,omitempty"`
-	TradeType  string `xml:"trade_type,omitempty"`
-	PrePayID   string `xml:"prepay_id,omitempty"`
-	CodeURL    string `xml:"code_url,omitempty"`
-	ErrCode    string `xml:"err_code,omitempty"`
-	ErrCodeDes string `xml:"err_code_des,omitempty"`
+	CommonResponse
+	TradeType string `xml:"trade_type,omitempty"`
+	PrePayID  string `xml:"prepay_id,omitempty"`
+	CodeURL   string `xml:"code_url,omitempty"`
 }
 
 // payRequest 接口请求参数

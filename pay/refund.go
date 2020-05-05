@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	"github.com/silenceper/wechat/util"
+	"github.com/antsbean/wechat/util"
 )
 
 var refundGateway = "https://api.mch.weixin.qq.com/secapi/pay/refund"
@@ -36,15 +36,7 @@ type refundRequest struct {
 
 //RefundResponse 接口返回
 type RefundResponse struct {
-	ReturnCode          string `xml:"return_code"`
-	ReturnMsg           string `xml:"return_msg"`
-	AppID               string `xml:"appid,omitempty"`
-	MchID               string `xml:"mch_id,omitempty"`
-	NonceStr            string `xml:"nonce_str,omitempty"`
-	Sign                string `xml:"sign,omitempty"`
-	ResultCode          string `xml:"result_code,omitempty"`
-	ErrCode             string `xml:"err_code,omitempty"`
-	ErrCodeDes          string `xml:"err_code_des,omitempty"`
+	CommonResponse
 	TransactionID       string `xml:"transaction_id,omitempty"`
 	OutTradeNo          string `xml:"out_trade_no,omitempty"`
 	OutRefundNo         string `xml:"out_refund_no,omitempty"`
