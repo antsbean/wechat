@@ -109,7 +109,11 @@ func (pcf *Pay) BridgeConfig(p *Params) (cfg Config, err error) {
 		return
 	}
 	buffer.WriteString("appId=")
-	buffer.WriteString(order.AppID)
+	if order.SubAppID != "" {
+		buffer.WriteString(order.SubAppID)
+	} else {
+		buffer.WriteString(order.AppID)
+	}
 	buffer.WriteString("&nonceStr=")
 	buffer.WriteString(order.NonceStr)
 	buffer.WriteString("&package=")
