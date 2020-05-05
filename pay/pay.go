@@ -28,11 +28,14 @@ type Pay struct {
 // Params was NEEDED when request unifiedorder
 // 传入的参数，用于生成 prepay_id 的必需参数
 type Params struct {
+	SubAppID   string
+	SubMchID   string
 	TotalFee   string
 	CreateIP   string
 	Body       string
 	OutTradeNo string
 	OpenID     string
+	SubOpenID  string
 	TradeType  string
 	SignType   string
 	Detail     string
@@ -71,6 +74,8 @@ type PreOrder struct {
 type payRequest struct {
 	AppID          string `xml:"appid"`
 	MchID          string `xml:"mch_id"`
+	SubAppID       string `xml:"sub_appid"`
+	SubMchID       string `xml:"sub_mch_id"`
 	DeviceInfo     string `xml:"device_info,omitempty"`
 	NonceStr       string `xml:"nonce_str"`
 	Sign           string `xml:"sign"`
@@ -90,6 +95,7 @@ type payRequest struct {
 	ProductID      string `xml:"product_id,omitempty"`  // 商品ID
 	LimitPay       string `xml:"limit_pay,omitempty"`   //
 	OpenID         string `xml:"openid,omitempty"`      // 用户标识
+	SubOpenID      string `xml:"sub_openid,omitempty"`  // 用户标识
 	SceneInfo      string `xml:"scene_info,omitempty"`  // 场景信息
 }
 
@@ -153,13 +159,16 @@ func (pcf *Pay) PrePayOrder(p *Params) (payOrder PreOrder, err error) {
 	param := make(map[string]interface{})
 	param["appid"] = pcf.AppID
 	param["body"] = p.Body
+	param["sub_appid"] = p.SubAppID
 	param["mch_id"] = pcf.PayMchID
+	param["sub_mch_id"] = p.SubMchID
 	param["nonce_str"] = nonceStr
 	param["out_trade_no"] = p.OutTradeNo
 	param["spbill_create_ip"] = p.CreateIP
 	param["total_fee"] = p.TotalFee
 	param["trade_type"] = p.TradeType
 	param["openid"] = p.OpenID
+	param["sub_openid"] = p.SubOpenID
 	param["sign_type"] = p.SignType
 	param["detail"] = p.Detail
 	param["attach"] = p.Attach
@@ -172,6 +181,8 @@ func (pcf *Pay) PrePayOrder(p *Params) (payOrder PreOrder, err error) {
 	request := payRequest{
 		AppID:          pcf.AppID,
 		MchID:          pcf.PayMchID,
+		SubAppID:       p.SubAppID,
+		SubMchID:       p.SubMchID,
 		NonceStr:       nonceStr,
 		Sign:           sign,
 		Body:           p.Body,
@@ -181,6 +192,7 @@ func (pcf *Pay) PrePayOrder(p *Params) (payOrder PreOrder, err error) {
 		NotifyURL:      notifyURL,
 		TradeType:      p.TradeType,
 		OpenID:         p.OpenID,
+		SubOpenID:      p.SubOpenID,
 		SignType:       p.SignType,
 		Detail:         p.Detail,
 		Attach:         p.Attach,
