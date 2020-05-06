@@ -24,6 +24,16 @@ type queryOrderRequest struct {
 	TransactionID string `xml:"transaction_id"`
 }
 
+const (
+	TradeSuccess    = "SUCCESS"
+	TradeRefund     = "REFUND"
+	TradeNOTPAY     = "NOTPAY"
+	TradeClosed     = "CLOSED"
+	TradeRevoked    = "REVOKED"
+	TradeUserPaying = "USERPAYING"
+	TradePayError   = "PAYERROR"
+)
+
 type QueryResponse struct {
 	CommonResponse
 	ResultMsg string `xml:"result_msg,omitempty"`
@@ -32,6 +42,7 @@ type QueryResponse struct {
 	SubOpenID          string `xml:"sub_openid"`
 	IsSubscribe        string `xml:"is_subscribe"`
 	TradeType          string `xml:"trade_type"`
+	TradeState         string `xml:"trade_state"`
 	BankType           string `xml:"bank_type"`
 	TotalFee           int    `xml:"total_fee"`
 	SettlementTotalFee int    `xml:"settlement_total_fee"`
