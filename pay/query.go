@@ -60,19 +60,20 @@ type QueryResponse struct {
 }
 
 // QueryOrder query order
-func (pcf *Pay) QueryOrder(c *CloseOrderParams) (rsp QueryResponse, err error) {
-	if c.SignType == "" {
-		c.SignType = "MD5"
+func (pcf *Pay) QueryOrder(q *QueryOrderParams) (rsp QueryResponse, err error) {
+	if q.SignType == "" {
+		q.SignType = "MD5"
 	}
 	nonceStr := util.RandomStr(32)
 	param := make(map[string]interface{})
 	param["appid"] = pcf.AppID
 	param["mch_id"] = pcf.PayMchID
-	param["sub_appid"] = c.SubAppID
-	param["sub_mch_id"] = c.SubMchID
+	param["sub_appid"] = q.SubAppID
+	param["sub_mch_id"] = q.SubMchID
 	param["nonce_str"] = nonceStr
-	param["out_trade_no"] = c.OutTradeNo
-	param["sign_type"] = c.SignType
+	param["transaction_id"] = q.TransactionID
+	param["out_trade_no"] = q.OutTradeNo
+	param["sign_type"] = q.SignType
 
 	bizKey := "&key=" + pcf.PayKey
 	str := orderParam(param, bizKey)
@@ -81,16 +82,16 @@ func (pcf *Pay) QueryOrder(c *CloseOrderParams) (rsp QueryResponse, err error) {
 		CommonRequest: CommonRequest{
 			AppID:    pcf.AppID,
 			MchID:    pcf.PayMchID,
-			SubAppID: c.SubAppID,
-			SubMchID: c.SubMchID,
+			SubAppID: q.SubAppID,
+			SubMchID: q.SubMchID,
 			NonceStr: nonceStr,
 			Sign:     sign,
-			SignType: c.SignType,
+			SignType: q.SignType,
 		},
-		OutTradeNo:    c.OutTradeNo,
-		TransactionID: "",
+		OutTradeNo:    q.OutTradeNo,
+		TransactionID: q.TransactionID,
 	}
-	rawRet, err := util.PostXML(closeGateway, request)
+	rawRet, err := util.PostXML(queryGateway, request)
 	if err != nil {
 		return
 	}
