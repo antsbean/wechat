@@ -141,11 +141,12 @@ type MixMessage struct {
 	AuthorizationCodeExpiredTime int64    `xml:"AuthorizationCodeExpiredTime"`
 	PreAuthCode                  string   `xml:"PreAuthCode"`
 	// 创建快速小程序需要用到的事件
-	CreateTime        int64  `xml:"CreateTime"`
-	CreatedAPPID      string `xml:"appid"`
-	AuthCode          string `xml:"auth_code"`
-	Msg               string `xml:"msg"`
-	FasteRegisterInfo struct {
+	CreateTime         int64  `xml:"CreateTime"`
+	CreatedAPPID       string `xml:"appid"`
+	AuthCode           string `xml:"auth_code"`
+	Msg                string `xml:"msg"`
+	FastRegisterStatus int32  `xml:"status"`
+	FastRegisterInfo   struct {
 		Name               string `xml:"name"`
 		Code               string `xml:"code"`
 		CodeType           int32  `xml:"code_type"`
