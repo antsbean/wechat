@@ -166,6 +166,38 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 	return
 }
 
+// PostMultipartFormWithBytes 上传文件或其他多个字段
+func PostMultipartFormWithBytes(fields []MultipartFormField, uri string) (respBody []byte, err error) {
+	bodyBuf := &bytes.Buffer{}
+	bodyWriter := multipart.NewWriter(bodyBuf)
+
+	for _, field := range fields {
+		fileWriter, e := bodyWriter.CreateFormFile(field.Fieldname, field.Filename)
+		if e != nil {
+			err = fmt.Errorf("error writing to buffer , err=%v", e)
+			return
+		}
+		valueReader := bytes.NewReader(field.Value)
+		if _, err = io.Copy(fileWriter, valueReader); err != nil {
+			return
+		}
+	}
+	contentType := bodyWriter.FormDataContentType()
+	bodyWriter.Close()
+
+	resp, e := http.Post(uri, contentType, bodyBuf)
+	if e != nil {
+		err = e
+		return
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, err
+	}
+	respBody, err = ioutil.ReadAll(resp.Body)
+	return
+}
+
 //PostXML perform a HTTP/POST request with XML body
 func PostXML(uri string, obj interface{}) ([]byte, error) {
 	xmlData, err := xml.Marshal(obj)

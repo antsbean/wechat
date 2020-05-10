@@ -37,6 +37,34 @@ type Media struct {
 	CreatedAt    int64     `json:"created_at"`
 }
 
+// MediaUploadBytesWithAK 临时素材上传
+func (material *Material) MediaUploadBytesWithAK(ak string, mediaType MediaType, filename string, materialBytes []byte) (media Media, err error) {
+	uri := fmt.Sprintf("%s?access_token=%s&type=%s", mediaUploadURL, ak, mediaType)
+
+	fields := []util.MultipartFormField{
+		{
+			IsFile:    true,
+			Fieldname: "media",
+			Filename:  filename,
+			Value:     materialBytes,
+		},
+	}
+	var response []byte
+	response, err = util.PostMultipartFormWithBytes(fields, uri)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(response, &media)
+	if err != nil {
+		return
+	}
+	if media.ErrCode != 0 {
+		err = fmt.Errorf("MediaUpload error : errcode=%v , errmsg=%v", media.ErrCode, media.ErrMsg)
+		return
+	}
+	return
+}
+
 // MediaUploadWithAK 临时素材上传
 func (material *Material) MediaUploadWithAK(ak string, mediaType MediaType, filename string) (media Media, err error) {
 	uri := fmt.Sprintf("%s?access_token=%s&type=%s", mediaUploadURL, ak, mediaType)
