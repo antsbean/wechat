@@ -37,15 +37,9 @@ type Media struct {
 	CreatedAt    int64     `json:"created_at"`
 }
 
-//MediaUpload 临时素材上传
-func (material *Material) MediaUpload(mediaType MediaType, filename string) (media Media, err error) {
-	var accessToken string
-	accessToken, err = material.GetAccessToken()
-	if err != nil {
-		return
-	}
-
-	uri := fmt.Sprintf("%s?access_token=%s&type=%s", mediaUploadURL, accessToken, mediaType)
+// MediaUploadWithAK 临时素材上传
+func (material *Material) MediaUploadWithAK(ak string, mediaType MediaType, filename string) (media Media, err error) {
+	uri := fmt.Sprintf("%s?access_token=%s&type=%s", mediaUploadURL, ak, mediaType)
 	var response []byte
 	response, err = util.PostFile("media", filename, uri)
 	if err != nil {
@@ -62,6 +56,23 @@ func (material *Material) MediaUpload(mediaType MediaType, filename string) (med
 	return
 }
 
+//MediaUpload 临时素材上传
+func (material *Material) MediaUpload(mediaType MediaType, filename string) (media Media, err error) {
+	var accessToken string
+	accessToken, err = material.GetAccessToken()
+	if err != nil {
+		return
+	}
+	return material.MediaUploadWithAK(accessToken, mediaType, filename)
+}
+
+//GetMediaURLWithAK 返回临时素材的下载地址供用户自己处理
+//NOTICE: URL 不可公开，因为含access_token 需要立即另存文件
+func (material *Material) GetMediaURLWithAK(ak, mediaID string) (mediaURL string, err error) {
+	mediaURL = fmt.Sprintf("%s?access_token=%s&media_id=%s", mediaGetURL, ak, mediaID)
+	return
+}
+
 //GetMediaURL 返回临时素材的下载地址供用户自己处理
 //NOTICE: URL 不可公开，因为含access_token 需要立即另存文件
 func (material *Material) GetMediaURL(mediaID string) (mediaURL string, err error) {
@@ -70,8 +81,7 @@ func (material *Material) GetMediaURL(mediaID string) (mediaURL string, err erro
 	if err != nil {
 		return
 	}
-	mediaURL = fmt.Sprintf("%s?access_token=%s&media_id=%s", mediaGetURL, accessToken, mediaID)
-	return
+	return material.GetMediaURLWithAK(accessToken, mediaID)
 }
 
 //resMediaImage 图片上传返回结果
