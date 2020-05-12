@@ -113,6 +113,8 @@ type MixMessage struct {
 	MenuID      string    `xml:"MenuId"`
 	Status      string    `xml:"Status"`
 	SessionFrom string    `xml:"SessionFrom"`
+	// 审核第三方修改昵称事件
+	WXANickNameAuditEvent
 
 	ScanCodeInfo struct {
 		ScanType   string `xml:"ScanType"`
