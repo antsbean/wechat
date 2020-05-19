@@ -19,7 +19,7 @@ type NotifyResult struct {
 
 	AppID              *string `xml:"appid" json:"appid"`
 	MchID              *string `xml:"mch_id"`
-	SubAppID           *string `xml:"appid" json:"sub_appid"`
+	SubAppID           *string `xml:"sub_appid" json:"sub_appid"`
 	SubMchID           *string `xml:"sub_mch_id"`
 	DeviceInfo         *string `xml:"device_info"`
 	NonceStr           *string `xml:"nonce_str"`
