@@ -5,6 +5,7 @@ import (
 	"github.com/antsbean/wechat/util"
 	"github.com/fatih/structs"
 	"github.com/spf13/cast"
+	"log"
 	"reflect"
 	"sort"
 	"strings"
@@ -28,10 +29,10 @@ type NotifyResult struct {
 	ResultCode         *string `xml:"result_code"`
 	ErrCode            *string `xml:"err_code"`
 	ErrCodeDes         *string `xml:"err_code_des"`
-
 	OpenID             *string `xml:"openid"`
 	SubOpenID          *string `xml:"sub_openid"`
 	IsSubscribe        *string `xml:"is_subscribe"`
+	SubIsSubscribe     *string `xml:"sub_is_subscribe"`
 	TradeType          *string `xml:"trade_type"`
 	BankType           *string `xml:"bank_type"`
 	TotalFee           *int    `xml:"total_fee"`
@@ -84,13 +85,12 @@ func (pcf *Pay) VerifySign(notifyRes NotifyResult) bool {
 			signStrings = signStrings + getTagKeyName(k, &notifyRes) + "=" + value + "&"
 		}
 	}
-
 	// STEP3, 在键值对的最后加上key=API_KEY
 	signStrings = signStrings + "key=" + pcf.PayKey
-
 	// STEP4, 进行MD5签名并且将所有字符转为大写.
 	sign := util.MD5Sum(signStrings)
 	if sign != *notifyRes.Sign {
+		log.Printf("sign strings %s and new sign %s", signStrings, sign)
 		return false
 	}
 	return true
