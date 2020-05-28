@@ -71,6 +71,12 @@ const (
 	EventWxaMediaCheck = "wxa_media_check"
 	// EventWxaNicknameAudit 昵称修改事件
 	EventWxaNicknameAudit = "wxa_nickname_audit"
+	// EventWeappAudiSuccess 审核通过事件
+	EventWeappAudiSuccess = "weapp_audit_success"
+	// EventWeappAudiFailed 审核失败事件
+	EventWeappAudiFailed = "weapp_audit_failed"
+	// EventWeappAudiDelay 审核延迟事件
+	EventWeappAudiDelay = "weapp_audit_delay"
 )
 
 const (
@@ -158,6 +164,12 @@ type MixMessage struct {
 		LegalPersonaName   string `xml:"legal_persona_name"`
 		ComponentPhone     string `xml:"component_phone"`
 	} `xml:"info"`
+	// 审核相关事件内容
+	AuditSuccessTime  int64  `xml:"SuccTime"`
+	AuditFailedTime   int64  `xml:"FailTime"` //
+	AuditDelayTime    int64  `xml:"DelayTime"`
+	AuditFailedReason string `xml:"Reason"`     // 审核失败原因
+	AuditScreenShot   string `xml:"ScreenShot"` // 审核失败截图
 
 	// 卡券相关
 	CardID              string `xml:"CardId"`
