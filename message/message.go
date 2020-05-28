@@ -71,12 +71,12 @@ const (
 	EventWxaMediaCheck = "wxa_media_check"
 	// EventWxaNicknameAudit 昵称修改事件
 	EventWxaNicknameAudit = "wxa_nickname_audit"
-	// EventWeappAudiSuccess 审核通过事件
-	EventWeappAudiSuccess = "weapp_audit_success"
-	// EventWeappAudiFailed 审核失败事件
-	EventWeappAudiFailed = "weapp_audit_failed"
-	// EventWeappAudiDelay 审核延迟事件
-	EventWeappAudiDelay = "weapp_audit_delay"
+	// EventAppAuditSuccess 审核通过事件
+	EventAppAuditSuccess = "weapp_audit_success"
+	// EventAppAuditFailed 审核失败事件
+	EventAppAuditFailed = "weapp_audit_failed"
+	// EventAppAuditDelay 审核延迟事件
+	EventAppAuditDelay = "weapp_audit_delay"
 )
 
 const (
