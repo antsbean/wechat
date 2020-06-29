@@ -2,6 +2,7 @@ package message
 
 import (
 	"encoding/xml"
+	"github.com/antsbean/wechat/miniprogram"
 
 	"github.com/antsbean/wechat/device"
 )
@@ -76,7 +77,9 @@ const (
 	// EventAppAuditFailed 审核失败事件
 	EventAppAuditFailed = "weapp_audit_failed"
 	// EventAppAuditDelay 审核延迟事件
-	EventAppAuditDelay = "weapp_audit_delay"
+	EventAppAuditDelay            = "weapp_audit_delay"
+	EventUpdateBusinessBindResult = "update_business_bind_result" // 绑定快递结果事件
+	EventAddExpressPath           = "add_express_path"            // 更新快递轨迹事件
 )
 
 const (
@@ -190,6 +193,18 @@ type MixMessage struct {
 
 	//设备相关
 	device.MsgDevice
+
+	// 绑定快递账号事件
+	ErrCode     int32                            `xml:"errcode"`
+	ErrMsg      string                           `xml:"errmsg"`
+	DeliveryID  string                           `xml:"delivery_id"`
+	BizID       string                           `xml:"biz_id"`
+	DeliveryIDX string                           `xml:"DeliveryID"` //  DeliveryID vs delivery_id  此处要问鹅厂的童鞋
+	PayBillID   string                           `xml:"WayBillId"`  //  账单ID
+	OrderID     string                           `xml:"OrderID"`    //  订单ID
+	Version     int32                            `xml:"Version"`
+	Count       int32                            `xml:"Count"`
+	Actions     []*miniprogram.LogisticsPathItem `xml:"Actions" `
 }
 
 //EventPic 发图事件推送

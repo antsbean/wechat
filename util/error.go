@@ -12,6 +12,13 @@ type CommonError struct {
 	ErrMsg  string `json:"errmsg"`
 }
 
+func (c *CommonError) Error(apiName string) error {
+	if c.ErrCode == 0 {
+		return nil
+	}
+	return fmt.Errorf("%s Error , errcode=%d , errmsg=%s", apiName, c.ErrCode, c.ErrMsg)
+}
+
 // DecodeWithCommonError 将返回值按照CommonError解析
 func DecodeWithCommonError(response []byte, apiName string) (err error) {
 	var commError CommonError
@@ -19,10 +26,13 @@ func DecodeWithCommonError(response []byte, apiName string) (err error) {
 	if err != nil {
 		return
 	}
-	if commError.ErrCode != 0 {
-		return fmt.Errorf("%s Error , errcode=%d , errmsg=%s", apiName, commError.ErrCode, commError.ErrMsg)
-	}
-	return nil
+	return commError.Error(apiName)
+}
+
+// DecodeToCommonError 将返回值按照CommonError解析
+func DecodeToCommonError(response []byte) (commError CommonError, err error) {
+	err = json.Unmarshal(response, &commError)
+	return
 }
 
 // DecodeWithError 将返回值按照解析
