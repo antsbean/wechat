@@ -11,9 +11,10 @@ const (
 	bindAccountURL    = "https://api.weixin.qq.com/cgi-bin/express/business/account/bind?access_token=%s"
 	getAllAccountURL  = "https://api.weixin.qq.com/cgi-bin/express/business/account/getall?access_token=%s"
 	getAllDeliveryURL = "https://api.weixin.qq.com/cgi-bin/express/business/delivery/getall?access_token=%s"
-	getPath           = "https://api.weixin.qq.com/cgi-bin/express/business/path/get?access_token=%s"
+	getPathURL        = "https://api.weixin.qq.com/cgi-bin/express/business/path/get?access_token=%s"
 	addOrderURL       = "https://api.weixin.qq.com/cgi-bin/express/local/business/order/add?access_token=%s"
 	cancelOrderURL    = "https://api.weixin.qq.com/cgi-bin/express/business/order/cancel?access_token=%s"
+	getQuotaURL       = "https://api.weixin.qq.com/cgi-bin/express/business/quota/get?access_token=%s"
 )
 
 type BindType string
@@ -183,7 +184,7 @@ func (wxa *MiniProgram) LogisticsGetPath(request *LogisticsPathRequest) (items [
 	if err != nil {
 		return
 	}
-	urlStr := fmt.Sprintf(getPath, accessToken)
+	urlStr := fmt.Sprintf(getPathURL, accessToken)
 	resultData, err := util.PostJSON(urlStr, request)
 	if err != nil {
 		return
@@ -328,4 +329,25 @@ func (wxa *MiniProgram) LogisticsCancelOrder(request *CancelOrderRequest) (*Deli
 		return nil, err
 	}
 	return &resp, nil
+}
+
+// GetQuota get quota
+func (wxa *MiniProgram) GetQuota(deliveryID, bizID string) (int32, error) {
+	var accessToken string
+	accessToken, err := wxa.GetAccessToken()
+	if err != nil {
+		return 0, err
+	}
+	urlStr := fmt.Sprintf(getQuotaURL, accessToken)
+	resultData, err := util.PostJSON(urlStr, map[string]string{"delivery_id": deliveryID, "biz_id": bizID})
+	if err != nil {
+		return 0, err
+	}
+	var resp struct {
+		QuotaNum int32 `json:"quota_num"`
+	}
+	if err := json.Unmarshal(resultData, &resp); err != nil {
+		return 0, err
+	}
+	return resp.QuotaNum, nil
 }
