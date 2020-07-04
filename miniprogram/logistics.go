@@ -29,8 +29,8 @@ const (
 // LogisticsBindAccount Logistics Account info
 type LogisticsBindAccount struct {
 	Type          BindType `json:"type"`
-	BizID         string   `json:"biz_id"`
-	DeliveryID    string   `json:"delivery_id"`
+	BizID         string   `json:"biz_id" validate:"required"`
+	DeliveryID    string   `json:"delivery_id" validate:"required"`
 	Password      string   `json:"password,omitempty"`
 	RemarkContent string   `json:"remark_content,omitempty"`
 }
