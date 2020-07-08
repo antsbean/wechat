@@ -238,7 +238,7 @@ type LogisticsShop struct {
 	WxaPath    string `json:"wxa_path"`
 	ImgURL     string `json:"img_url"`
 	GoodsName  string `json:"goods_name"`
-	GoodsCount string `json:"goods_count"`
+	GoodsCount int32  `json:"goods_count"`
 }
 
 type LogisticsInsured struct {
