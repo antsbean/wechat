@@ -2,6 +2,7 @@ package message
 
 import (
 	"encoding/xml"
+
 	"github.com/antsbean/wechat/miniprogram"
 
 	"github.com/antsbean/wechat/device"
@@ -201,7 +202,7 @@ type MixMessage struct {
 	BizID       string                           `xml:"biz_id"`
 	DeliveryIDX string                           `xml:"DeliveryID"` //  DeliveryID vs delivery_id  此处要问鹅厂的童鞋
 	PayBillID   string                           `xml:"WayBillId"`  //  账单ID
-	OrderID     string                           `xml:"OrderID"`    //  订单ID
+	OrderID     string                           `xml:"OrderId"`    //  订单ID
 	Version     int32                            `xml:"Version"`
 	Count       int32                            `xml:"Count"`
 	Actions     []*miniprogram.LogisticsPathItem `xml:"Actions" `
