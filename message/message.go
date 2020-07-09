@@ -201,7 +201,7 @@ type MixMessage struct {
 	DeliveryID  string                           `xml:"delivery_id"`
 	BizID       string                           `xml:"biz_id"`
 	DeliveryIDX string                           `xml:"DeliveryID"` //  DeliveryID vs delivery_id  此处要问鹅厂的童鞋
-	PayBillID   string                           `xml:"WayBillId"`  //  账单ID
+	WayBillID   string                           `xml:"WayBillId"`  //  账单ID
 	OrderID     string                           `xml:"OrderId"`    //  订单ID
 	Version     int32                            `xml:"Version"`
 	Count       int32                            `xml:"Count"`
