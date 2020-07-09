@@ -159,14 +159,14 @@ type ActionTypeEnum int32
 
 const (
 	CargoCanvassingSuccess    ActionTypeEnum = iota + 100001 // 揽件
-	CargoCanvassingFailed                                    // 揽件失败
-	CargoCanvassingAssigning                                 // 揽件分配阶段
+	CargoCanvassingFailed     ActionTypeEnum = 100002        // 揽件失败
+	CargoCanvassingAssigning  ActionTypeEnum = 100003        // 揽件分配阶段
 	CarriagePathUpdated       ActionTypeEnum = 200001        // 运输轨迹更新
 	DistributeExpressDelivery ActionTypeEnum = 300002        // 开发派发快递
-	SignExpressDelivery                                      // 签收快递
-	SignFailedExpressDelivery                                // 签收快递
+	SignExpressDelivery       ActionTypeEnum = 300003        // 签收快递
+	SignFailedExpressDelivery ActionTypeEnum = 300004        // 签收快递
 	CancelOrder               ActionTypeEnum = 400001        // 取消订单
-	StrandedDelivery                                         // 滞留快递
+	StrandedDelivery          ActionTypeEnum = 400002        // 滞留快递
 
 )
 
